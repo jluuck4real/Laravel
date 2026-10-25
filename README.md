@@ -1,59 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Chirper
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicação acadêmica de publicações curtas construída com Laravel. O projeto reúne autenticação, persistência de mensagens e curtidas, com separação entre controllers, models, policies e views Blade.
 
-## About Laravel
+**PHP · Laravel 12 · Blade · SQLite · Tailwind CSS 4 · Vite · Pest 3**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funcionalidades
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Cadastro, login e encerramento de sessão.
+- Feed de publicações, com criação, edição e exclusão por usuários autenticados.
+- Verificação de autoria por policy.
+- Curtidas vinculadas ao usuário autenticado ou à sessão do visitante.
+- Testes de funcionalidades de curtidas em `tests/Feature/ChirpLikeTest.php`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Instalação
 
-## Learning Laravel
+Requer PHP 8.2 ou superior, Composer 2, Git e Node.js compatível com Vite 7 (20.19+ ou 22.12+). Ative a extensão PHP do banco escolhido.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```sh
+git clone https://github.com/jluuck4real/Laravel.git
+cd Laravel
+composer install
+php -r "file_exists('.env') || copy('.env.example', '.env');"
+php artisan key:generate
+npm ci
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+O exemplo de ambiente utiliza SQLite. Crie o arquivo local antes das migrations:
 
-## Laravel Sponsors
+```sh
+php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Confirme `DB_CONNECTION=sqlite` no `.env`. Se definir `DB_DATABASE`, use o caminho absoluto do arquivo.
 
-### Premium Partners
+```sh
+php artisan migrate
+npm run build
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Execução
 
-## Contributing
+```sh
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Abra o endereço informado pelo Artisan (por padrão, http://127.0.0.1:8000). Para editar o frontend com atualização automática, execute `npm run dev` em outro terminal.
 
-## Code of Conduct
+## Estrutura
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```text
+app/Http/Controllers/   Autenticação, publicações e curtidas
+app/Models/             User, Chirp e ChirpLike
+app/Policies/           Regras de autoria
+database/               Migrations, factories e seeders
+resources/views/        Feed, formulários e componentes Blade
+routes/web.php          Rotas HTTP
+tests/Feature/          Testes de funcionalidades
+```
 
-## Security Vulnerabilities
+## Verificação
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```sh
+composer test
+```
 
-## License
+O comando acima executa os testes existentes; a presença dos testes não implica aprovação automática em todo ambiente.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Demonstração e contexto
+
+Não há URL pública de demonstração ou screenshots da interface confirmados no repositório. Execute localmente para explorar o projeto.
+
+Desenvolvido por João Lucas Gomes Mendonça como parte dos estudos de desenvolvimento web. A base utiliza o framework Laravel; dependências mantêm suas respectivas licenças.
